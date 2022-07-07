@@ -1,22 +1,23 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
 public class FlipkartTest {
 
     WebDriver driver;
+    JavascriptExecutor javascriptExecutor;
 
     public static void main(String[] args) throws InterruptedException {
         FlipkartTest flipkartTest = new FlipkartTest();
         flipkartTest.invokeDriver();
         flipkartTest.userLogin();
         flipkartTest.searchAndSelectProduct();
+        flipkartTest.checkout();
     }
 
     void invokeDriver()  {
@@ -39,18 +40,22 @@ public class FlipkartTest {
         driver.findElement(By.xpath("//input[@class='_3704LK']")).sendKeys("iphone");
         driver.findElement(By.className("L0Z3Pu")).click();
         driver.findElement(By.xpath("//div[text()='APPLE iPhone 12 Mini (Green, 64 GB)']")).click();
-        Thread.sleep(5000);
-        WebElement element =  driver.findElement(By.xpath("//button[contains(@class,'-ww')]/*[name()='svg']"));
-//                driver.findElement(By.className("//span[text()='Cart']"));
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        WebElement addToCart = wait.until(ExpectedConditions.visibilityOf(element));
-        element.click();
-//        Actions actions = new Actions(driver);
-//        actions.moveToElement(element).click().perform();
+        driver.findElement(By.xpath("//button[contains(@class,'-ww')]"));
+        driver.findElement(By.xpath("//span[text()='Cart']")).click();
 
-
-
-//        driver.findElement(By.xpath("//button[contains(@class,'_2KpZ6l _2U9uOA _3v1-ww')]")).click();
-
+    }
+    void checkout(){
+        driver.findElement(By.xpath("//span[text()='Continue']")).click();
+        driver.findElement(By.className("_2KpZ6l _3JSQZW _3dESVI")).click();
+        driver.findElement(By.className("_2KpZ6l _53zLY _3AWRsL")).click();
+        driver.findElement(By.xpath("//input[@name='name']")).sendKeys("Victor");
+        driver.findElement(By.xpath("//input[@name='phone']")).sendKeys("7010726060");
+        driver.findElement(By.xpath("//input[@name='addressLine2']")).sendKeys("Koramangala");
+        driver.findElement(By.xpath("//span[text()='Home (All day delivery)']")).click();
+        driver.findElement(By.xpath("//button[text()='Save and Deliver Here']")).click();
+        javascriptExecutor = (JavascriptExecutor)driver;
+        javascriptExecutor.executeScript("scroll(0,1000)");
+        driver.findElement(By.xpath("//button[text()='CONTINUE']")).click();
+        driver.findElement(By.xpath("//button[text()='Accept & Continue']")).click();
     }
 }
