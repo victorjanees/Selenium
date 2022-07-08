@@ -16,6 +16,7 @@ public class FlipkartTest {
         FlipkartTest flipkartTest = new FlipkartTest();
         flipkartTest.invokeDriver();
         flipkartTest.userLogin();
+        flipkartTest.mouseOver();
         flipkartTest.searchAndSelectProduct();
         flipkartTest.checkout();
     }
@@ -28,12 +29,18 @@ public class FlipkartTest {
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(40));
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
     }
+
     void userLogin() {
         driver.findElement(By.className("_2doB4z")).click();
         driver.findElement(By.className("_1_3w1N")).click();
         driver.findElement(By.xpath("//input[@class='_2IX_2- VJZDxU']")).sendKeys("victorjanees@gmail.com");
         driver.findElement(By.xpath("//input[@class='_2IX_2- _3mctLh VJZDxU']")).sendKeys("Flipkart@123");
         driver.findElement(By.xpath("//button[@class='_2KpZ6l _2HKlqd _3AWRsL']")).click();
+    }
+    void mouseOver(){
+        WebElement element=driver.findElement(By.xpath("//div[text()='Fashion']"));
+        Actions actions = new Actions(driver);
+        actions.moveToElement(element).perform();
     }
     void searchAndSelectProduct() throws InterruptedException {
         Thread.sleep(3000);
